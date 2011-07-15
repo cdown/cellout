@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# git://github.com/cdown/cellout.git
+
+# cellout
+# Prints a text representation of a battery's status.
+
+# Copyright (c) 2011 Chris Down <cdown.uk@gmail.com>
+# This is free software; see the COPYING file for copying conditions. There is
+# NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+_die() {
+    printf '%s\n' "$@"
+    exit 1
+}
+
+(( $# != 1 )) && _die "Usage: ${0##*/} [battery]"
+
+_battery="$1"
+
+for _file in charge_{full,now} present status; do
+    [[ ! -r /sys/class/power_supply/${_battery}/${_file} ]] && _die "Could not read /sys/class/power_supply/${_battery}/${_file}"
+done
+
+_batt_charge_full="$(<"/sys/class/power_supply/${_battery}/charge_full")"
+_batt_charge_now="$(<"/sys/class/power_supply/${_battery}/charge_now")"
+_batt_status="$(<"/sys/class/power_supply/${_battery}/status")"
+_batt_present="$(<"/sys/class/power_supply/${_battery}/present")"
+
+[[ ${_batt_status} =~ (Charging|Discharging|Full) ]] && _batt_status="${_batt_status:0:1}" || _batt_status='U'
+	
+(( _batt_present )) || _batt_status='M'
+
+_batt_perc=$(( _batt_charge_now * 100 / _batt_charge_full ))
+
+if   (( _batt_perc >  75 )); then _batt_perc_graphic='####';
+elif (( _batt_perc >  50 )); then _batt_perc_graphic='###-';
+elif (( _batt_perc >  25 )); then _batt_perc_graphic='##--';
+elif (( _batt_perc <= 25 )); then _batt_perc_graphic='#---'; fi
+
+printf '[%s] %s%s\n' "${_batt_perc_graphic}" "${_batt_perc}" "${_batt_status}"
+
+# vim: set filetype=sh expandtab ts=4 sw=4 autoindent smartindent:

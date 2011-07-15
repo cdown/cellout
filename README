@@ -1,0 +1,23 @@
+ABOUT
+
+cellout is a very program that prints battery status to STDOUT. It was originally
+designed to be piped to dmenu(1) for use as a status bar battery monitor.
+
+OUTPUT
+
+Output is in the format
+
+    [BBBB] PPPS
+
+where:
+
+B - Battery charge. # equals 25% filled.
+P - Percentage charged.
+S - Battery state. Usually either C (Charging), D (Discharging), F (Full), or M (Missing).
+
+COPYRIGHT
+
+Copyright 2011 Chris Down.
+
+This is free software; see the COPYING file for copying conditions. There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
