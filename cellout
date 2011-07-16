@@ -16,16 +16,16 @@ _die() {
 
 (( $# != 1 )) && _die "Usage: ${0##*/} [battery]"
 
-_battery="$1"
+_batt="$1"
 
-for _file in charge_{full,now} present status; do
-    [[ ! -r /sys/class/power_supply/${_battery}/${_file} ]] && _die "Could not read /sys/class/power_supply/${_battery}/${_file}"
+for _file in /sys/class/power_supply/${_batt}/{charge_{full,now},present,status}; do
+    [[ ! -r ${_file} ]] && _die "Could not read ${_file}"
 done
 
-_batt_charge_full="$(<"/sys/class/power_supply/${_battery}/charge_full")"
-_batt_charge_now="$(<"/sys/class/power_supply/${_battery}/charge_now")"
-_batt_status="$(<"/sys/class/power_supply/${_battery}/status")"
-_batt_present="$(<"/sys/class/power_supply/${_battery}/present")"
+_batt_charge_full="$(<"/sys/class/power_supply/${_batt}/charge_full")"
+_batt_charge_now="$(<"/sys/class/power_supply/${_batt}/charge_now")"
+_batt_status="$(<"/sys/class/power_supply/${_batt}/status")"
+_batt_present="$(<"/sys/class/power_supply/${_batt}/present")"
 
 [[ ${_batt_status} =~ (Charging|Discharging|Full) ]] && _batt_status="${_batt_status:0:1}" || _batt_status='U'
 	
