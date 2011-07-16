@@ -18,7 +18,7 @@ _die() {
 
 _batt="$1"
 
-for _file in /sys/class/power_supply/${_batt}/{charge_{full,now},present,status}; do
+for _file in "/sys/class/power_supply/${_batt}/"{charge_{full,now},present,status}; do
     [[ ! -r ${_file} ]] && _die "Could not read ${_file}"
 done
 
