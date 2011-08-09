@@ -1,20 +1,27 @@
 #!/bin/bash
 
+# vim: set expandtab ts=4 sw=4 autoindent smartindent:
+
 # git://github.com/cdown/cellout.git
 
 # cellout
-# Prints a text representation of a battery's status.
+# Simple textual battery monitor.
 
 # Copyright (c) 2011 Chris Down <christopher.down@iofc.org>
 # This is free software; see the COPYING file for copying conditions. There is
 # NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+_program_name="${0##*/}"
+_program_version='1.0'
 
 _die() {
     printf '%s\n' "$@" >&2
     exit 1
 }
 
-(( $# != 1 )) && _die "Usage: ${0##*/} [battery]"
+if ! (( $# )) || [[ $1 =~ ^-(-)?h(elp)?$ ]]; then
+    _die "${_program_name} ${_program_version}" "Usage: ${_program_name} [battery]"
+fi
 
 _batt="$1"
 
@@ -39,5 +46,3 @@ elif (( _batt_perc <= 100 )); then _batt_perc_graphic='####'; fi
 (( _batt_present )) || _batt_perc_graphic='MMMM'
 
 printf '[%s] %s%s\n' "${_batt_perc_graphic}" "${_batt_perc}" "${_batt_status}"
-
-# vim: set filetype=sh expandtab ts=4 sw=4 autoindent smartindent:

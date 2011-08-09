@@ -4,7 +4,7 @@
 pkgname=cellout
 pkgver=1.0
 pkgrel=1
-pkgdesc="A simple text battery monitor."
+pkgdesc='Simple textual battery monitor.'
 arch=('any')
 url="https://github.com/cdown/${pkgname}"
 license=('BSD')
