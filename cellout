@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# vim: set expandtab autoindent smartindent:
+# vim: set expandtab ts=4 sw=4 autoindent smartindent:
 
 # git://github.com/cdown/cellout.git
 
