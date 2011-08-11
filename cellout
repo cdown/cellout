@@ -20,7 +20,7 @@ _die() {
     exit "$1"
 }
 
-if ! (( $# != 1 )) || [[ $1 =~ ^-(-)?h(elp)?$ ]]; then
+if (( $# != 1 )) || [[ $1 =~ ^-(-)?h(elp)?$ ]]; then
     _die 1 "${_program_name} ${_program_version}" "Usage: ${_program_name} [battery]"
 fi
 
