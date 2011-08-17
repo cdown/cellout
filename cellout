@@ -36,7 +36,7 @@ _batt_status=$(<"/sys/class/power_supply/${_batt}/status")
 _batt_present=$(<"/sys/class/power_supply/${_batt}/present")
 
 _batt_status="${_batt_status:0:1}"
-	
+
 _batt_perc=$(( _batt_charge_now * 100 / _batt_charge_full ))
 
 if   (( _batt_perc <  25  )); then _batt_perc_graphic='#---';
