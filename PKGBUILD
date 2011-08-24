@@ -1,5 +1,5 @@
-# Contributor: Chris Down <christopher.down@iofc.org>
-# Maintainer: Chris Down <christopher.down@iofc.org>
+# Contributor: Chris Down < base64 -d <<< Y2Rvd24udWtAZ21haWwuY29tCg== >
+# Maintainer: Chris Down < base64 -d <<< Y2Rvd24udWtAZ21haWwuY29tCg== >
 
 pkgname=cellout
 pkgver=1.0
