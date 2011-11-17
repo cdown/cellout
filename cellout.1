@@ -1,0 +1,26 @@
+.TH CELLOUT 1
+.SH NAME
+cellout \- print battery status
+.SH SYNOPSIS
+.BI cellout " battery"
+.SH DESCRIPTION
+.B cellout
+is a simple battery status printer.
+.SH ARGUMENTS
+.TP
+.I battery
+The battery's unique ID, as listed in /sys/class/power_supply/.
+.SH "EXIT STATUS"
+.TP
+.B 0
+Successful operation.
+.TP
+.B 1
+Failed to read file.
+.SH BUGS
+Please report any bugs to https://github.com/cdown/cellout/issues.
+.SH COPYRIGHT
+Copyright 2011 Christopher Down <iofc.org@christopher.down>.
+
+This is free software; see the COPYING file for copying conditions. There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.

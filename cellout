@@ -1,39 +1,36 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/bin/sh
 
 # (c) Christopher Down 2011
 # See the COPYING file for copyright information.
 
-from sys import argv, exit, stderr
-
-if ( len(argv) < 2 ):
-    print >> stderr, 'Usage: ' + argv[0] + ' battery'
-    exit(1)
-
-files = {
-    'charge_full':open('/sys/class/power_supply/' + argv[1] + '/charge_full', 'r'),
-    'charge_now':open('/sys/class/power_supply/' + argv[1] + '/charge_now', 'r'),
-    'status':open('/sys/class/power_supply/' + argv[1] + '/status', 'r'),
-    'present':open('/sys/class/power_supply/' + argv[1] + '/present', 'r'),
+_die() {
+    printf '%s\n' "$@" >&2
+    exit 1
 }
 
-battery = {
-    'charge_full':int(files['charge_full'].read()),
-    'charge_now':int(files['charge_now'].read()),
-    'status':files['status'].read(1),
-    'present':int(files['present'].read()),
-}
-           
-battery['charge_percent'] = battery['charge_now'] * 100 / battery['charge_full']
-battery['charge_graphic'] = ''
+[ "$#" -eq 0 ] && _die "Usage: ${0##*/} battery"
 
-if ( battery['present'] == 0 ):
-    battery['charge_graphic'] = 'MMMM'
-else:
-    for i in range(0, 100, 25):
-        if ( battery['charge_percent'] > i ):
-            battery['charge_graphic']+='#'
-        else:
-            battery['charge_graphic']+='-'
+_battery_info_path="/sys/class/power_supply/$1"
 
-print '[%(charge_graphic)s] %(charge_percent)s%(status)s' % battery
+for _file in "${_battery_info_path}/charge_full" \
+             "${_battery_info_path}/charge_now" \
+             "${_battery_info_path}/present" \
+             "${_battery_info_path}/status"; do
+    [ -r "${_file}" ] || _die "Could not read ${_file}"
+done
+
+read -r _batt_charge_full < "${_battery_info_path}/charge_full"
+read -r _batt_charge_now  < "${_battery_info_path}/charge_now"
+read -r _batt_status      < "${_battery_info_path}/status"
+read -r _batt_present     < "${_battery_info_path}/present"
+
+_batt_perc=$(( _batt_charge_now * 100 / _batt_charge_full ))
+
+if   [ "${_batt_perc}" -lt 25 ]; then _batt_perc_graphic='#---';
+elif [ "${_batt_perc}" -lt 50 ]; then _batt_perc_graphic='##--';
+elif [ "${_batt_perc}" -lt 75 ]; then _batt_perc_graphic='###-';
+else                                  _batt_perc_graphic='####'; fi
+
+[ "${_batt_present}" -eq 0 ] && _batt_perc_graphic='MMMM'
+
+printf '[%s] %s%.1s\n' "${_batt_perc_graphic}" "${_batt_perc}" "${_batt_status}"
