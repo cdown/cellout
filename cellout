@@ -3,6 +3,11 @@
 # (c) Christopher Down 2011
 # See the COPYING file for copyright information.
 
+_author='Christopher Down'
+_copyright='Copyright 2011 Christopher Down'
+_license='BSD'
+_version=1.0
+
 _die() {
     printf '%s\n' "$@" >&2
     exit 1
