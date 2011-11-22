@@ -2,8 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define BATTERY_INFO_PATH "/sys/class/power_supply/"
 #define BUFFER_SIZE 64
+#define BATTERY_INFO_PATH "/sys/class/power_supply/"
+#define CHARGE_NOW_FILENAME "charge_now"
+#define CHARGE_FULL_FILENAME "charge_full"
+#define STATUS_FILENAME "status"
 
 int main(int argc, char *argv[])
 {
@@ -17,9 +20,9 @@ int main(int argc, char *argv[])
         status,
         battery_arg,
         i;
-    FILE *f_status,
+    FILE *f_charge_full,
          *f_charge_now,
-         *f_charge_full;
+         *f_status;
 
     if (argc < 2)
     {
@@ -29,15 +32,18 @@ int main(int argc, char *argv[])
 
     battery_arg = strncmp(argv[1], "-p", 3) ? 1 : 2;
 
-    strcpy(status_filename, BATTERY_INFO_PATH);
-    strcpy(charge_now_filename, BATTERY_INFO_PATH);
     strcpy(charge_full_filename, BATTERY_INFO_PATH);
-    strncat(status_filename, argv[battery_arg], BUFFER_SIZE - 32);
-    strncat(charge_now_filename, argv[battery_arg], BUFFER_SIZE - 36);
-    strncat(charge_full_filename, argv[battery_arg], BUFFER_SIZE - 37);
-    strcat(status_filename, "/status");
-    strcat(charge_now_filename, "/charge_now");
-    strcat(charge_full_filename, "/charge_full");
+    strcpy(charge_now_filename, BATTERY_INFO_PATH);
+    strcpy(status_filename, BATTERY_INFO_PATH);
+    strncat(charge_full_filename, argv[battery_arg], BUFFER_SIZE -
+            sizeof(BATTERY_INFO_PATH) - sizeof(CHARGE_FULL_FILENAME));
+    strncat(charge_now_filename, argv[battery_arg], BUFFER_SIZE -
+            sizeof(BATTERY_INFO_PATH) - sizeof(CHARGE_NOW_FILENAME));
+    strncat(status_filename, argv[battery_arg], BUFFER_SIZE -
+            sizeof(BATTERY_INFO_PATH) - sizeof(STATUS_FILENAME));
+    strcat(charge_full_filename, "/"CHARGE_FULL_FILENAME);
+    strcat(charge_now_filename, "/"CHARGE_NOW_FILENAME);
+    strcat(status_filename, "/"STATUS_FILENAME);
 
     if ((f_status = fopen(status_filename, "r")) == NULL)
     {
