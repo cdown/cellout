@@ -10,15 +10,13 @@ license=('BSD')
 source=("http://fakkelbrigade.eu/chris/software/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 md5sums=()
 
-package() {
-    install -d "${pkgdir}/usr/"{bin/,share/man/man1/}
-
-    # Compress the manual page to save a small amount of space.
+build() {
     gzip -9 "${srcdir}/${pkgname}.1"
+    make
+}
 
-    install -m755 \
-        "${srcdir}/${pkgname}" \
-        "${pkgdir}/usr/bin/${pkgname}"
+package() {
+    make PREFIX="${pkgdir}/usr/bin/${pkgname}" install
     install -m755 \
         "${srcdir}/${pkgname}.1.gz" \
         "${pkgdir}/usr/share/man/man1/${pkgname}.1.gz"
