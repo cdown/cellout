@@ -15,31 +15,46 @@ int main(int argc, char *argv[])
          charge_full_filename[BUFFER_SIZE],
          charge_now[BUFFER_SIZE],
          charge_full[BUFFER_SIZE],
-         charge_percentage_graphic[5];
+         charge_percentage_graphic[5],
+         battery[BUFFER_SIZE];
     int charge_percentage,
         status,
-        battery_arg,
-        i;
+        i,
+        arg,
+        show_graphic,
+        battery_found;
     FILE *f_charge_full,
          *f_charge_now,
          *f_status;
 
-    if (argc < 2)
+    battery_found = 0;
+    for (arg = 1 ; arg < argc ; arg++)
     {
-        fputs("Usage: cellout [-p] battery\n", stderr);
-        exit(1);
+        if (!strncmp(argv[arg], "-g", 3))
+        {
+            show_graphic = 1;
+        }
+        else
+        {
+            battery_found = 1;
+            strncpy(battery, argv[arg], BUFFER_SIZE - 1);
+        }
     }
 
-    battery_arg = strncmp(argv[1], "-p", 3) ? 1 : 2;
+    if (!battery_found)
+    {
+        fputs("Usage: cellout [-g] battery\n", stderr);
+        exit(1);
+    }
 
     strcpy(charge_full_filename, BATTERY_INFO_PATH);
     strcpy(charge_now_filename, BATTERY_INFO_PATH);
     strcpy(status_filename, BATTERY_INFO_PATH);
-    strncat(charge_full_filename, argv[battery_arg], BUFFER_SIZE - 1 -
+    strncat(charge_full_filename, battery, BUFFER_SIZE - 1 -
             sizeof(BATTERY_INFO_PATH) - sizeof(CHARGE_FULL_FILENAME));
-    strncat(charge_now_filename, argv[battery_arg], BUFFER_SIZE - 1 -
+    strncat(charge_now_filename, battery, BUFFER_SIZE - 1 -
             sizeof(BATTERY_INFO_PATH) - sizeof(CHARGE_NOW_FILENAME));
-    strncat(status_filename, argv[battery_arg], BUFFER_SIZE - 1 -
+    strncat(status_filename, battery, BUFFER_SIZE - 1 -
             sizeof(BATTERY_INFO_PATH) - sizeof(STATUS_FILENAME));
     strcat(charge_full_filename, "/"CHARGE_FULL_FILENAME);
     strcat(charge_now_filename, "/"CHARGE_NOW_FILENAME);
@@ -63,21 +78,22 @@ int main(int argc, char *argv[])
 
     if (fgets(charge_now, BUFFER_SIZE, f_charge_now) == NULL)
         fprintf(stderr, "Failed to get line from %s\n", charge_now_filename);
-    charge_now[strlen(charge_now)-1] = '\0';
 
     if (fgets(charge_full, BUFFER_SIZE, f_charge_full) == NULL)
         fprintf(stderr, "Failed to get line from %s\n", charge_full_filename);
-    charge_full[strlen(charge_full)-1] = '\0';
-
+    
     if ((status = fgetc(f_status)) == EOF)
         fprintf(stderr, "Failed to get character from %s\n", status_filename);
+    
+    charge_now[strlen(charge_now)-1] = '\0';
+    charge_full[strlen(charge_full)-1] = '\0';
 
     /* TODO: atoi() error checking (should be fine since /proc is not directly
      * editable (and thus should prevent stupid stuff), but nevertheless...
      */
     charge_percentage = atoi(charge_now) * 100 / atoi(charge_full);
 
-    if (battery_arg == 2)
+    if (show_graphic == 1)
     {
         charge_percentage_graphic[0] = '\0';
         for (i = 25; i <= 100; i += 25)
