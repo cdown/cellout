@@ -35,11 +35,11 @@ int main(int argc, char *argv[])
     strcpy(charge_full_filename, BATTERY_INFO_PATH);
     strcpy(charge_now_filename, BATTERY_INFO_PATH);
     strcpy(status_filename, BATTERY_INFO_PATH);
-    strncat(charge_full_filename, argv[battery_arg], BUFFER_SIZE -
+    strncat(charge_full_filename, argv[battery_arg], BUFFER_SIZE - 1 -
             sizeof(BATTERY_INFO_PATH) - sizeof(CHARGE_FULL_FILENAME));
-    strncat(charge_now_filename, argv[battery_arg], BUFFER_SIZE -
+    strncat(charge_now_filename, argv[battery_arg], BUFFER_SIZE - 1 -
             sizeof(BATTERY_INFO_PATH) - sizeof(CHARGE_NOW_FILENAME));
-    strncat(status_filename, argv[battery_arg], BUFFER_SIZE -
+    strncat(status_filename, argv[battery_arg], BUFFER_SIZE - 1 -
             sizeof(BATTERY_INFO_PATH) - sizeof(STATUS_FILENAME));
     strcat(charge_full_filename, "/"CHARGE_FULL_FILENAME);
     strcat(charge_now_filename, "/"CHARGE_NOW_FILENAME);
