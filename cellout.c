@@ -66,6 +66,9 @@ int main(int argc, char *argv[])
     if ((status = fgetc(f_status)) == EOF)
         fprintf(stderr, "Failed to get character from %s\n", status_filename);
 
+    /* TODO: atoi() error checking (should be fine since /proc is not directly
+     * editable (and thus should prevent stupid stuff), but nevertheless...
+     */
     charge_percentage = atoi(charge_now) * 100 / atoi(charge_full);
 
     if (battery_arg == 2)
@@ -82,10 +85,18 @@ int main(int argc, char *argv[])
                status);
     }
     else
-    {
         printf("%d%c\n", charge_percentage, status);
-    }
 
+    /* We don't want to exit on failure to close. We don't write anything, so it
+     * should be fine, but we should still bring it to the attention of the
+     * user.
+     *
+     * XXX: EXIT_SUCCESS is returned regardless of whether we successfully close
+     * the files or not. I'm not sure whether I really want to return failure
+     * for something that (shouldn't) cause any problems on error, but it should
+     * be such a rare occurrence that we don't really have to worry about it for
+     * now.
+     */
     if (fclose(f_status) == EOF)
         perror(status_filename);
     if (fclose(f_charge_now) == EOF)
@@ -93,5 +104,5 @@ int main(int argc, char *argv[])
     if (fclose(f_charge_full) == EOF)
         perror(charge_full_filename);
 
-    return 0;
+    return EXIT_SUCCESS;
 }
