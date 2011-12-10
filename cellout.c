@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define VERSION 1.01
 #define BUFFER_SIZE 64
 #define BATTERY_INFO_PATH "/sys/class/power_supply/"
 #define CHARGE_NOW_FILENAME "charge_now"
@@ -20,29 +21,24 @@ int main(int argc, char *argv[]) {
          charge_full[BUFFER_SIZE],
          charge_percentage_graphic[5],
          battery[BUFFER_SIZE];
-    int charge_percentage,
-        status,
-        i,
-        arg,
-        show_graphic,
-        battery_found;
-    FILE *f_charge_full,
-         *f_charge_now,
-         *f_status;
+    int charge_percentage, status, i, show_graphic, battery_found;
+    FILE *f_charge_full, *f_charge_now, *f_status;
 
     battery_found = 0;
-    for (arg = 1 ; arg < argc ; arg++) {
-        if (!strncmp(argv[arg], "-g", 3))
-            show_graphic = 1;
-        else {
-            battery_found = 1;
-            strncpy(battery, argv[arg], BUFFER_SIZE - 1);
+    if (argc == 3 && !strncmp(argv[1], "-g", 3)) {
+        show_graphic = 1;
+        strncpy(battery, argv[2], BUFFER_SIZE - 1);
+    } else {
+        if (argc == 2) {
+            if (!strncmp(argv[1], "-v", 3)) {
+                printf("%s %.02f\n", "mac-cel", VERSION);
+                return 0;
+            }
+            strncpy(battery, argv[1], BUFFER_SIZE - 1);
+        } else {
+            fputs("Usage: cellout [-g] battery\n", stderr);
+            return 1;
         }
-    }
-
-    if (!battery_found) {
-        fputs("Usage: cellout [-g] battery\n", stderr);
-        exit(1);
     }
 
     strcpy(charge_full_filename, BATTERY_INFO_PATH);
@@ -60,15 +56,15 @@ int main(int argc, char *argv[]) {
 
     if ((f_charge_full = fopen(charge_full_filename, "r")) == NULL) {
         fprintf(stderr, "Failed to open %s\n", charge_full_filename);
-        exit(2);
+        return 2;
     }
     if ((f_charge_now = fopen(charge_now_filename, "r")) == NULL) {
         fprintf(stderr, "Failed to open %s\n", charge_now_filename);
-        exit(2);
+        return 2;
     }
     if ((f_status = fopen(status_filename, "r")) == NULL) {
         fprintf(stderr, "Failed to open %s\n", status_filename);
-        exit(2);
+        return 2;
     }
 
 

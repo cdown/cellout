@@ -1,7 +1,7 @@
 # Maintainer: Chris Down <iofc.org@christopher.down>
 
 pkgname=cellout
-pkgver=1.0
+pkgver=1.01
 pkgrel=1
 pkgdesc='A simple battery status printer.'
 arch=('any')
