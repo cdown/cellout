@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define VERSION 1.01
+#define VERSION 1.02
 #define BUFFER_SIZE 64
 #define BATTERY_INFO_PATH "/sys/class/power_supply/"
 #define CHARGE_NOW_FILENAME "charge_now"
@@ -21,10 +21,9 @@ int main(int argc, char *argv[]) {
          charge_full[BUFFER_SIZE],
          charge_percentage_graphic[5],
          battery[BUFFER_SIZE];
-    int charge_percentage, status, i, show_graphic, battery_found;
+    int charge_percentage, status, i, show_graphic;
     FILE *f_charge_full, *f_charge_now, *f_status;
 
-    battery_found = 0;
     if (argc == 3 && !strncmp(argv[1], "-g", 3)) {
         show_graphic = 1;
         strncpy(battery, argv[2], BUFFER_SIZE - 1);
