@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
     } else {
         if (argc == 2) {
             if (!strncmp(argv[1], "-v", 3)) {
-                printf("%s %.02f\n", "mac-cel", VERSION);
+                printf("%s %.02f\n", "cellout", VERSION);
                 return 0;
             }
             strncpy(battery, argv[1], BUFFER_SIZE - 1);
