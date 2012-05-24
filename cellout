@@ -1,4 +1,4 @@
-#!/usr/bin/gawk -f
+#!/usr/bin/awk -f
 
 # Copyright (c) Christopher Down 2011-2012
 # Copyright (c) Dave Reisner 2012
