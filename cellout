@@ -1,5 +1,8 @@
 #!/usr/bin/gawk -f
 
+# (c) Christopher Down 2011-2012, Dave Reisner 2012
+# See the COPYING file for copyright information.
+
 function display_text(now, full, status) {
     printf "%d%c\n", now / full * 100, status
 }
@@ -55,6 +58,5 @@ BEGIN {
 
     if (graphical == 1)
         display_graphical(charge_now, charge_full, status)
-
     display_text(charge_now, charge_full, status)
 }
