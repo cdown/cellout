@@ -35,7 +35,7 @@ BEGIN {
     if ((getline charge_full < f_full) < 0) {
         f_full = "/sys/class/power_supply/" battery "/energy_full"
         if ((getline charge_full < f_full) < 0) {
-            printf "error: failed to read %s\n", f_full
+            print "error: failed to read full charge data"
             exit 2
         }
     }
@@ -44,14 +44,14 @@ BEGIN {
     if ((getline charge_now < f_now) < 0) {
         f_now = "/sys/class/power_supply/" battery "/energy_now"
         if ((getline charge_now < f_now) < 0) {
-            printf "error: failed to read %s\n", f_now
+            print "error: failed to read current charge data"
             exit 2
         }
     }
 
     f_status = "/sys/class/power_supply/" battery "/status"
     if ((getline status < f_status) < 0) {
-        printf "error: failed to read %s\n", f_status
+        print "error: failed to read battery status"
         exit 2
     }
 
