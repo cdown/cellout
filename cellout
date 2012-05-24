@@ -20,17 +20,15 @@ function display_graphical(now, full, status) {
 }
 
 BEGIN {
-    if (length(ARGV) < 2) {
-        print "usage: cellout [-g] battery"
-        exit 1
-    }
-
-    if (ARGV[1] == "-g") {
+    if ((ARGV[1] == "-g") && (length(ARGV) == 3)) {
         graphical = 1
         battery = ARGV[2]
-    } else {
+    } else if (length(ARGV) == 2) {
         graphical = 0
         battery = ARGV[1]
+    } else {
+        print "usage: cellout [-g] battery"
+        exit 1
     }
 
     f_full = "/sys/class/power_supply/" battery "/charge_full"
