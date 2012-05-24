@@ -1,4 +1,4 @@
-#!/usr/bin/awk -f
+#!/usr/bin/gawk -f
 
 function display_text(now, full, status) {
   printf "%d%c\n", now / full * 100, status
