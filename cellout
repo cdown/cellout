@@ -1,6 +1,7 @@
 #!/usr/bin/gawk -f
 
-# (c) Christopher Down 2011-2012, Dave Reisner 2012
+# Copyright (c) Christopher Down 2011-2012
+# Copyright (c) Dave Reisner 2012
 # See the COPYING file for copyright information.
 
 function display_text(now, full, status) {
