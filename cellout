@@ -20,12 +20,12 @@ function display_graphical(now, full, status) {
 }
 
 BEGIN {
-    if ((ARGV[1] == "-g") && (length(ARGV) == 3)) {
-        graphical = 1
-        battery = ARGV[2]
-    } else if (length(ARGV) == 2) {
+    if (length(ARGV) == 2) {
         graphical = 0
         battery = ARGV[1]
+    } else if ((length(ARGV) == 3) && (ARGV[1] == "-g")) {
+        graphical = 1
+        battery = ARGV[2]
     } else {
         print "usage: cellout [-g] battery"
         exit 1
