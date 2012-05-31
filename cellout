@@ -10,6 +10,8 @@ function display_text(now, full, status) {
 
 function display_graphical(now, full, status) {
     percent = (now / full * 100)
+    if (percent > 100)
+        percent = 100
 
     printf "["
     for (i = 0; i < percent / 25; i++)
