@@ -4,17 +4,9 @@
 # Copyright (c) Dave Reisner 2012
 # See the COPYING file for copyright information.
 
-function display_text(now, full, status) {
-    printf "%d%c\n", now / full * 100, status
-}
-
-function display_graphical(now, full, status) {
-    percent = (now / full * 100)
-    if (percent > 100)
-        percent = 100
-
+function display_graphical(pct) {
     printf "["
-    for (i = 0; i < percent / 25; i++)
+    for (i = 0; i < pct / 25; i++)
         printf "#"
     while (i++ < 4)
         printf "-"
@@ -57,7 +49,10 @@ BEGIN {
         exit 2
     }
 
+    percent_full = charge_now / charge_full * 100
+    if (percent_full > 100)
+        percent_full = 100
     if (graphical == 1)
-        display_graphical(charge_now, charge_full, status)
-    display_text(charge_now, charge_full, status)
+        display_graphical(percent_full)
+    printf "%d%c\n", percent_full, status
 }
