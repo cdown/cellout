@@ -28,6 +28,10 @@ Insufficient arguments.
 .B 2
 Failed to open file.
 .SH BUGS
+Some versions of awk interpret \-g as an option to the interpreter rather than
+the script. To avoid this, notify your awk interpreter that there are no more
+interpreter options with \-\-, or your interpreter's equivalent.
+
 Please report any bugs to https://github.com/cdown/cellout/issues.
 .SH COPYRIGHT
 Copyright 2011-2012 Christopher Down <iofc.org@christopher.down>.
