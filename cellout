@@ -50,10 +50,8 @@ BEGIN {
     }
 
     percent_full = charge_now / charge_full * 100
-    if (percent_full > 100) {
-        print "above 100"
+    if (percent_full > 100)
         percent_full = 100
-    }
     if (graphical == 1)
         display_graphical(percent_full)
     printf "%d%c\n", percent_full, status
