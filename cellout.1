@@ -1,41 +1,29 @@
 .TH CELLOUT 1
 .SH NAME
-cellout \- simple battery status printer
+cellout \- battery status printer
+
 .SH SYNOPSIS
 .B cellout
-.RB [ " -g"
-]
+.RB [ -g ]
 .I battery
-.SH DESCRIPTION
-.B cellout
-is a simple battery status printer.
+
 .SH OPTIONS
 .TP
 .B -g
 Print graphical progress bar.
+
 .SH ARGUMENTS
 .TP
 .I battery
 The battery ID, as shown in /sys/class/power_supply.
-.SH "EXIT STATUS"
-.TP
-.B 0
-Successful operation.
-.TP
-.B 1
-Insufficient arguments.
-.TP
-.B 2
-Failed to open file.
+
 .SH BUGS
 Some versions of awk interpret \-g as an option to the interpreter rather than
 the script. To avoid this, notify your awk interpreter that there are no more
 interpreter options with \-\-, or your interpreter's equivalent.
 
-Please report any bugs to https://github.com/cdown/cellout/issues.
-.SH COPYRIGHT
-Copyright 2011-2012 Christopher Down <iofc.org@christopher.down>.
-Copyright 2012 Dave Reisner.
+Please report any bugs at https://github.com/cdown/cellout/issues.
 
-This is free software; see the COPYING file for copying conditions. There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+.SH AUTHORS
+Chris Down <chris at chrisdown dot name>
+Dave Reisner <d at falconindy dot com>

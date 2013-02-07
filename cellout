@@ -1,9 +1,5 @@
 #!/usr/bin/awk -f
 
-# Copyright (c) Christopher Down 2011-2012
-# Copyright (c) Dave Reisner 2012
-# See the COPYING file for copyright information.
-
 function display_graphical(pct) {
     printf "["
     for (i = 0; i < pct / 25; i++)
