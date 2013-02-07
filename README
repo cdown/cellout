@@ -1,0 +1,37 @@
+CELLOUT(1)                                                          CELLOUT(1)
+
+
+
+NAME
+       cellout - battery status printer
+
+
+SYNOPSIS
+       cellout [-g] battery
+
+
+OPTIONS
+       -g     Print graphical progress bar.
+
+
+ARGUMENTS
+       battery
+              The battery ID, as shown in /sys/class/power_supply.
+
+
+BUGS
+       Some  versions  of  awk  interpret  -g  as an option to the interpreter
+       rather than the script. To avoid this, notify your awk interpreter that
+       there  are  no  more interpreter options with --, or your interpreter's
+       equivalent.
+
+       Please report any bugs at https://github.com/cdown/cellout/issues.
+
+
+AUTHORS
+       Chris Down <chris at chrisdown dot name>
+       Dave Reisner <d at falconindy dot com>
+
+
+
+                                                                    CELLOUT(1)
