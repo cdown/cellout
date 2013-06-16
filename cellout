@@ -45,7 +45,11 @@ BEGIN {
         exit 2
     }
 
-    percent_full = charge_now / charge_full * 100
+    if ((charge_now == 0)) {
+        percent_full = 0
+    } else {
+        percent_full = charge_now / charge_full * 100
+    }
     if (percent_full > 100)
         percent_full = 100
     if (graphical == 1)
